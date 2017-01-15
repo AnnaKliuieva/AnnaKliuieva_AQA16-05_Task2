@@ -101,7 +101,7 @@ public class Main {
 
     private static void matrixShiftUp(int[][] arr, int shift) {
         for (int k = 0; k < shift; k++) {
-            int[] tmp = (int[]) arr[0].clone();
+            int[] tmp = arr[0].clone();
             for (int i = 0; i < arr.length - 1; i++) {
                 arr[i] = arr[i + 1];
             }
@@ -111,7 +111,7 @@ public class Main {
 
     private static void matrixShiftDown(int[][] arr, int shift) {
         for (int k = 0; k < shift; k++) {
-            int[] tmp = (int[]) arr[arr.length - 1].clone();
+            int[] tmp = arr[arr.length - 1].clone();
             for (int i = arr.length - 1; i > 0; i--) {
                 arr[i] = arr[i - 1];
             }
@@ -171,14 +171,14 @@ public class Main {
         }
     }
 
-    private static double avrgValueOfMatrix(int [][] arr) {
+    private static double avrgValueOfMatrix(int[][] arr) {
         double sum = 0;
-        for (int [] x : arr) {
-            for (int y :x) {
-                sum +=y;
+        for (int[] x : arr) {
+            for (int y : x) {
+                sum += y;
             }
         }
-        return sum/(arr.length * arr.length);
+        return sum / (arr.length * arr.length);
     }
 
 
@@ -461,9 +461,10 @@ public class Main {
         System.out.println("Матрицы, повернутая на 180 градусов против часовой стрелки");
         printMatrix(arrRot270);
 */
+ /*
         // 9.6 Построить матрицу, вычитая из элементов каждой строки матрицы ее среднее арифметическое.
 
-        double [][] arrMinusAvrg = new double [n][n];
+        double[][] arrMinusAvrg = new double[n][n];
         double avrgVal = avrgValueOfMatrix(arr);
         System.out.println("Srednee znachenie " + avrgVal);
         for (int i = 0; i < arr.length; i++) {
@@ -473,19 +474,32 @@ public class Main {
         }
         System.out.println("Исходная матрица за вычетом ее среднего значения из каждого элемента");
         printMatrix(arrMinusAvrg);
+  */
 
         // 9.7. Уплотнить матрицу, удаляя из нее строки и столбцы, заполненные нулями.
 
 
         // 9.8. Преобразовать строки матрицы таким образом, чтобы элементы, равные нулю,
-        //     располагались после всех остальных
+        //      располагались после всех остальных
 
-
-
+        int[][] arrZeroAtEnd = new int[n][n];
+        copyNbyNmatrix(arr, arrZeroAtEnd);
+        zeroAtEnd(arrZeroAtEnd);
+        System.out.println("Матрица с нулями, перемещенными в конец строки:");
+        printMatrix(arrZeroAtEnd);
 
     }
 
-
-
-
+    private static void zeroAtEnd(int[][] arr) {
+        for (int[] x : arr) {
+            for (int j = 0; j < arr.length; j++) {
+                if (x[j] == 0) {
+                    for (int k = j; k < arr.length - 1; k++) {
+                        x[k] = x[k + 1];
+                    }
+                    x[arr.length - 1] = 0;
+                }
+            }
+        }
+    }
 }
