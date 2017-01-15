@@ -155,7 +155,7 @@ public class Main {
         System.out.println(Arrays.toString(arrMaxSeq) + " " + (maxSeqLen));
         System.out.println("Максимальная убывающая числовая последовательность:");
         int[] arrMinSeq = new int[minSeqLen];
-        System.arraycopy(arrToString, (currIndForMin - minSeqLen + 1), arrMinSeq, 0, (minSeqLen));//копирую последовательность убыв элем в новый массив
+        System.arraycopy(arrToString, (currIndForMin - minSeqLen + 1), arrMinSeq, 0, (minSeqLen));
         System.out.println(Arrays.toString(arrMinSeq) + " " + (minSeqLen));
     }
 
