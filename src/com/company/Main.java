@@ -39,7 +39,7 @@ public class Main {
 
     public static void printMatrix(int[][] arr) {
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = 0; j < arr[i].length; j++) {
                 System.out.print(arr[i][j] + " ");
             }
             System.out.println();
@@ -99,6 +99,16 @@ public class Main {
         }
     }
 
+    public static void LeftShift(int[] arr, int shift) {
+        for (int k = 0; k < shift; k++) {
+            int tmp = arr[0];
+            for (int i = 0; i < arr.length - 1; i++) {
+                arr[i] = arr[i + 1];
+            }
+            arr[arr.length - 1] = tmp;
+        }
+    }
+
     private static void matrixShiftUp(int[][] arr, int shift) {
         for (int k = 0; k < shift; k++) {
             int[] tmp = arr[0].clone();
@@ -126,9 +136,7 @@ public class Main {
             for (int y : x)
                 arrToString[count++] = y;
         }
-
         for (int j = 0; j < arrToString.length - 1; j++) {
-
             if (arrToString[j] <= arrToString[j + 1]) {
                 maxCount += 1;
                 if (maxCount > maxSeqLen) {
@@ -137,7 +145,6 @@ public class Main {
                 }
             } else
                 maxCount = 1;
-
             if (arrToString[j] >= arrToString[j + 1]) {
                 minCount += 1;
                 if (minCount > minSeqLen) {
@@ -146,7 +153,6 @@ public class Main {
                 }
             } else
                 minCount = 1;
-
         }
         System.out.println(Arrays.toString(arrToString));
         System.out.println("Максимальная возрастающая числовая последовательность:");
@@ -478,7 +484,20 @@ public class Main {
 
         // 9.7. Уплотнить матрицу, удаляя из нее строки и столбцы, заполненные нулями.
 
+        int[][] arr1 = {{1, 0, 6, 7, 0},
+                        {0, 0, 0, 0, 0},
+                        {0, 8, 0, 0, 0},
+                        {0, 0, 0, 0, 0},
+                        {1, 3, 5, 0, 0}
+                                       };
+        printMatrix(arr1);
+        int[][] arrTmp = new int[arr1.length][arr1.length];
+        System.out.println("Матрица, уплотненная по строкам:");
+        deletZeroRow(arr1, arrTmp);
+        System.out.println("Матрица, уплотненная по столбцам:");
+        deletZeroColumn(arr1, arrTmp);
 
+ /*
         // 9.8. Преобразовать строки матрицы таким образом, чтобы элементы, равные нулю,
         //      располагались после всех остальных
 
@@ -487,17 +506,65 @@ public class Main {
         zeroAtEnd(arrZeroAtEnd);
         System.out.println("Матрица с нулями, перемещенными в конец строки:");
         printMatrix(arrZeroAtEnd);
+ */
 
+    }
+
+    private static void deletZeroRow(int[][] arr, int[][] arr1) {
+        int k = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[i][j] != 0) {
+                    System.arraycopy(arr[i], 0, arr1[k], 0, arr.length);
+                    k++;
+                    break;
+                }
+            }
+        }
+        int[][] arrDeletZeroRow = new int[k][arr.length];
+        int i = 0;
+        for (int[] x : arrDeletZeroRow) {
+            System.arraycopy(arr1[i], 0, arrDeletZeroRow[i], 0, arr.length);
+            i++;
+        }
+        printMatrix(arrDeletZeroRow);
+    }
+
+    private static void deletZeroColumn(int[][] arr, int[][] arr1) {
+        int k = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[j][i] != 0) {
+                    for (int l = 0; l < arr.length; l++) {
+                        arr1[l][i] = arr[l][i];
+                    }
+                    k++;
+                    break;
+                }
+            }
+        }
+        int[][] arrDeletZeroCol = new int[arr.length][k];
+        int i = 0;
+        for (int[] x : arrDeletZeroCol) {
+            System.arraycopy(arr1[i], 0, arrDeletZeroCol[i], 0, k);
+            i++;
+        }
+        printMatrix(arrDeletZeroCol);
     }
 
     private static void zeroAtEnd(int[][] arr) {
         for (int[] x : arr) {
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = 0; j < arr.length - 1; j++) {
+                int l = j;
                 if (x[j] == 0) {
-                    for (int k = j; k < arr.length - 1; k++) {
-                        x[k] = x[k + 1];
+                    l = j + 1;
+                    if (x[j + 1] == 0) {
+                        while (x[l] == 0 && l < arr.length - 1) {
+                            l++;
+                        }
                     }
-                    x[arr.length - 1] = 0;
+                    x[j] = x[l];
+                    x[l] = 0;
                 }
             }
         }
